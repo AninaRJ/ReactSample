@@ -6,8 +6,14 @@ var Comment = React.createClass({
 	return { __html : rawMarkup};
   },
   
-  clickDelete: function(){
-	 this.props.onCommentDelete();
+  clickDelete: function(e){
+	  e.preventDefault();
+	  var comment = {
+			  "id": this.props.commentId,
+			  "author": this.props.author,
+			  "text": this.props.commentText
+	  }
+	 this.props.onCommentDelete(comment);
   },
 	
   render: function() {
@@ -25,17 +31,17 @@ var Comment = React.createClass({
 
 // CommentList class that does a higher level up in displaying content
 var CommentList = React.createClass({
-	removeComment: function(){
-		  this.props.deleteComment();
+	removeComment: function(comment){
+		  this.props.deleteComment(comment);
 	  },
   render: function() {
 	 var commentNodes = this.props.data.map(function(comment){
 		 return(
-			 <Comment author = {comment.author} key={comment.id} onCommentDelete={this.removeComment}>
+			 <Comment author = {comment.author} key={comment.id} commentText={comment.text} commentId={comment.id} onCommentDelete={this.removeComment}>
 			 	{comment.text}
 			 </Comment>
 		 );
-	 });
+	 }.bind(this));
 	 
     return (
       <div className="commentList">
@@ -135,8 +141,27 @@ var CommentBox = React.createClass({
 		//setInterval(this.loadCommentsFromServer, this.props.pollInterval);
 	},
 	
-	deleteComment: function(){
-		alert("hi")
+	deleteComment: function(comment){
+		// Removes the selected comment
+		var comments = this.state.data;
+		var commentIndex = comments.toString().indexOf(comment);
+		if(commentIndex > -1){
+			comments.splice(commentIndex, 1);
+			this.setState({data: comments});
+			$.post({
+				url: this.props.url,
+				dataType: "json",
+				data: comments,
+				success: function(data){
+					alert()
+					this.setState({data: data});
+				}.bind(this),
+				error: function(xhr, status, err){
+					this.setState({data: comments});
+					console.error(this.props.url, status, err.toString());
+				}.bind(this)
+			});
+		}
 	},
 	
 	render: function(){
