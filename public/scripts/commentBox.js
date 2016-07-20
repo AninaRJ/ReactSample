@@ -7,7 +7,6 @@ var Comment = React.createClass({
   },
   
   clickDelete: function(){
-	  alert("test")
 	 this.props.onCommentDelete();
   },
 	
