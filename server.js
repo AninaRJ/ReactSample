@@ -71,7 +71,7 @@ app.post('/api/comments', function(req, res) {
   });
 });
 
-// To delete an existing comment
+// To delete an existing comment - used post itself
 app.post('/api/comments/remove', function(req, res){
 	fs.readFile(COMMENTS_FILE, function(err, data){
 	if (err) {

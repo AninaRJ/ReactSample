@@ -142,7 +142,7 @@ var CommentBox = React.createClass({
 	},
 	
 	deleteComment: function(comment){
-		// Removes the selected comment
+		// Removes the selected comment - state gets changed on basis of successful deletion
 		$.post({
 			url: this.props.url + "/remove",
 			dataType: "json",
