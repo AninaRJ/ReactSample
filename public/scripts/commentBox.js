@@ -143,24 +143,14 @@ var CommentBox = React.createClass({
 	
 	deleteComment: function(comment){
 		// Removes the selected comment
-		var comments = this.state.data;
-		var commentIndex = comments.toString().indexOf(comment);
-		if(commentIndex > -1){
-			comments.splice(commentIndex, 1);
-			this.setState({data: comments});
-			$.post({
-				url: this.props.url,
-				dataType: "json",
-				data: comments,
-				success: function(data){
-					this.setState({data: data});
-				}.bind(this),
-				error: function(xhr, status, err){
-					this.setState({data: comments});
-					console.error(this.props.url, status, err.toString());
-				}.bind(this)
-			});
-		}
+		$.post({
+			url: this.props.url + "/remove",
+			dataType: "json",
+			data: comment,
+			success: function(data){
+				this.setState({data: data});
+			}.bind(this)
+		});
 	},
 	
 	render: function(){

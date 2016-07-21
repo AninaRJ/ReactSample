@@ -71,6 +71,33 @@ app.post('/api/comments', function(req, res) {
   });
 });
 
+// To delete an existing comment
+app.post('/api/comments/remove', function(req, res){
+	fs.readFile(COMMENTS_FILE, function(err, data){
+	if (err) {
+      console.error(err);
+      process.exit(1);
+    }
+    var comments = JSON.parse(data);
+    var delComment = req.body;
+    var newComments = [];
+    
+    for(var i=0; i< comments.length; i++){
+    	if(delComment.id != comments[i].id){
+    		newComments.push(comments[i]);
+    	}
+    }
+    
+	fs.writeFile(COMMENTS_FILE, JSON.stringify(newComments, null, 4), function(err) {
+      if (err) {
+        console.error(err);
+        process.exit(1);
+      }
+      res.json(newComments);
+    });
+	});
+});
+
 
 app.listen(app.get('port'), function() {
   console.log('Server started: http://localhost:' + app.get('port') + '/');
