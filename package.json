@@ -5,6 +5,10 @@
   "license": "see LICENSE file",
   "description": "Code from the React tutorial.",
   "main": "server.js",
+  "engines": {
+    "node": "12.x",
+    "npm": "6.x"
+  },
   "dependencies": {
     "body-parser": "^1.4.3",
     "express": "^4.4.5"
@@ -29,8 +33,5 @@
   "bugs": {
     "url": "https://github.com/reactjs/react-tutorial/issues"
   },
-  "homepage": "https://github.com/reactjs/react-tutorial",
-  "engines" : {
-    "node" : "0.12.x"
-  }
+  "homepage": "https://github.com/reactjs/react-tutorial"
 }
